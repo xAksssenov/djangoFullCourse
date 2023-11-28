@@ -1,0 +1,35 @@
+{% load static %}
+<html lang="ru">
+
+<head>
+    <title>{% block title %}Онлайн издание{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'newspaper/style.css' %}">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header__wrapper">
+        <a href="{% url 'newspaper:index' %}">
+            <img src="{% static 'newspaper/images/mospolytech_logo_white.png' %}" alt="our logotype"
+                 class="header__logo">
+        </a>
+        <a href="{% url 'newspaper:index' %}"> Удачного прочтения статей! </a>
+    </div>
+</header>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="footer__wrapper">
+        <p>Выполнил: Аксенов Кирилл</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends 'newspaper/index.html' %}
+
+{% block title %}Статьи{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% if articles %}
+        <ul>Все статьи:
+            {% for article in articles %}
+                <li><a href="{% url 'newspaper:detail' article.id %}">{{ article.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Статьи не найдены =/</p>
+    {% endif %}
+</div>
+{% endblock %}
