@@ -1,12 +1,11 @@
 html {
     font-size: 62.5%;
-    color: #fff;
+    color: #000000;
     scroll-behavior: smooth;
     height: 100%;
 }
 
 body {
-    background-image: url(images/mospoly.png);
     padding: 0;
     min-height: 100%;
     display: flex;
@@ -20,22 +19,37 @@ main {
 }
 
 a {
-    color: wheat;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
     font-size: 3.2rem;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 a:hover {
-    color: aqua;
+    color: rgb(218, 152, 132);
+    transform: translateY(-3px);
+}
+
+.ul_teg {
+    color: #2c2c2c;
+    list-style-type: none;
+}
+
+.ul_comment {
+    color: #2c2c2c;
+    font-size: 2rem;
 }
 
 .wrapper {
+    color: #2c2c2c;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 .header {
     background-color: #2c2c2c;
+    display: flex;
+    justify-content: space-between;
 }
 
 .header__wrapper {
@@ -56,6 +70,7 @@ p {
 .footer {
     background-color: #2c2c2c;
     flex-shrink: 0;
+    color: aliceblue;
 }
 
 .footer__wrapper {

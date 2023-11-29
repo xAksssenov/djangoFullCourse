@@ -5,23 +5,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
     class Meta:
         verbose_name = 'Раздел газеты'
         verbose_name_plural = 'Разделы газеты'
-
-class Article(models.Model):
-    title = models.CharField(max_length=255)
-    section = models.ForeignKey(Category, on_delete=models.CASCADE)
-    content = models.TextField()
-    publication_date = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = 'Статья'
-        verbose_name_plural = 'Статьи'
 
 class Author(models.Model):
     name = models.CharField(max_length=255)
@@ -33,6 +19,20 @@ class Author(models.Model):
     class Meta:
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
+
+class Article(models.Model):
+    title = models.CharField(max_length=255)
+    section = models.ForeignKey(Category, on_delete=models.CASCADE)
+    content = models.TextField()
+    publication_date = models.DateField(auto_now_add=True)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Статья'
+        verbose_name_plural = 'Статьи'
 
 class Advertiser(models.Model):
     name = models.CharField(max_length=255)

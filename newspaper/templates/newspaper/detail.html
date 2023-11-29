@@ -8,14 +8,16 @@
     <h1>Название: {{ article.title }}</h1>
     <p>Раздел: {{ article.section }}</p>
     <p>Автор: {{ article.author.name }}</p>
-    <img src="{% static 'newspaper/images/' %}{{ article.id }}.jpg" width="300" alt="{{ article.title }}">
+    <img src="{% static 'newspaper/images/' %}{{ article.id }}.jpg" width="400" alt="{{ article.title }}">
     <p>Содержание: {{ article.content }}</p>
     <p>Дата публикации: {{ article.publication_date }}</p>
     <p>Комментарии:</p>
-    <ul>
-        {% for comment in comments %}
+    <div>
+        <ul class="ul_comment">
+            {% for comment in comments %}
             <li>{{ comment.text }} - {{ comment.reader.name }} ({{ comment.timestamp }})</li>
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endblock %}

@@ -6,9 +6,9 @@ class CommentInline(admin.StackedInline):
     extra = 1
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ["title", "section", "publication_date"]
+    list_display = ["title", "section", "author", "publication_date"]
     fieldsets = [
-        (None, {"fields": ["title", "section", "content"]}),
+        (None, {"fields": ["title", "section", "content", "author"]}),
     ]
     inlines = [CommentInline]
 
