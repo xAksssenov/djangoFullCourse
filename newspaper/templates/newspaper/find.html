@@ -4,14 +4,16 @@
 
 {% block content %}
 <div class="wrapper">
-    <ul>Все выбранные разделы:
+    <ul class="finded">
+        Все выбранные разделы:
         {% for category in categories %}
-            <li>{{ category }}</li>
+        <li>{{ category.name }}</li>
         {% endfor %}
     </ul>
-    <ul>Подходящие статьи:
+    <ul class="finded">
+        Подходящие статьи:
         {% for article in articles %}
-            <li><a href="{% url 'newspaper:detail' article.id %}">{{ article.title }}</a></li>
+        <li><a href="{% url 'newspaper:detail' article.id %}">{{ article.title }}</a></li>
         {% endfor %}
     </ul>
 </div>

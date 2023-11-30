@@ -5,13 +5,14 @@
 {% block content %}
 <div class="wrapper">
     {% if articles %}
-        <ul class="ul_teg">Все статьи:
-            {% for article in articles %}
-                <li><a href="{% url 'newspaper:detail' article.id %}">{{ article.title }}</a></li>
-            {% endfor %}
-        </ul>
+    <ul class="ul_teg">Все статьи:
+        {% for article in articles %}
+        <li><a href="{% url 'newspaper:detail' article.id %}">{{ article.title }}</a></li>
+        {% endfor %}
+    </ul>
     {% else %}
-        <p>Статьи не найдены =/</p>
+    <p>Статьи не найдены =/</p>
     {% endif %}
+    <a class="a_polls" href="{% url 'newspaper:polls' %}">Перейти к выбору категорий</a>
 </div>
 {% endblock %}

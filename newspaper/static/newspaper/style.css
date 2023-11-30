@@ -25,12 +25,33 @@ a {
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
-a:hover {
-    color: rgb(218, 152, 132);
+a:hover,
+.input:hover {
+    color: rgb(226, 144, 119);
     transform: translateY(-3px);
 }
 
-.ul_teg {
+.a_polls {
+    border: 1px solid rgb(56, 54, 54);
+    border-radius: 20px;
+    padding: 15px;
+    position: absolute;
+    top: 25vh;
+    right: 10vw;
+}
+
+.input {
+    border: 1px solid rgb(56, 54, 54);
+    border-radius: 20px;
+    padding: 10px;
+    margin: 15px;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+    background-color: white;
+}
+
+.ul_teg,
+.finded {
     color: #2c2c2c;
     list-style-type: none;
 }
@@ -69,7 +90,6 @@ p {
 
 .footer {
     background-color: #2c2c2c;
-    flex-shrink: 0;
     color: aliceblue;
 }
 

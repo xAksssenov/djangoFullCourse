@@ -12,25 +12,26 @@
 
 <body>
 
-<header class="header">
-    <div class="header__wrapper">
-        <a href="{% url 'newspaper:list' %}">
-            <img src="{% static 'newspaper/images/mospolytech_logo_white.png' %}" alt="our logotype"
-                 class="header__logo">
-        </a>
-        <a style="color: aliceblue;" href="{% url 'newspaper:list' %}"> Удачного прочтения статей! </a>
-    </div>
-</header>
+    <header class="header">
+        <div class="header__wrapper">
+            <a href="{% url 'newspaper:list' %}">
+                <img src="{% static 'newspaper/images/mospolytech_logo_white.png' %}" alt="our logotype"
+                    class="header__logo">
+            </a>
+            <a style="color: aliceblue;" href="{% url 'newspaper:list' %}"> Удачного прочтения статей! </a>
+        </div>
+    </header>
 
-<main>
-    {% block content %}
-    {% endblock %}
-</main>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
-<footer class="footer">
-    <div class="footer__wrapper">
-        <p>Выполнил: Аксенов Кирилл</p>
-    </div>
-</footer>
+    <footer class="footer">
+        <div class="footer__wrapper">
+            <p>Выполнил: Аксенов Кирилл</p>
+        </div>
+    </footer>
 </body>
+
 </html>

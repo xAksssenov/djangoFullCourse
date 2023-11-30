@@ -4,7 +4,7 @@ from .models import Article, Comment, Category
 from .utils import find_matching_articles
 
 def list(request):
-    
+
     articles = Article.objects.all()
     categories = Category.objects.all()
     context = {'articles': articles, 'categories': categories}
@@ -23,22 +23,18 @@ def polls(request):
 
     categories = Category.objects.all()
     context = {'categories': categories}
-    
+
     return render(request, "newspaper/polls.html", context)
 
 def find(request):
     
-        selected_sections = request.GET.getlist('section')
-        selected_authors = request.GET.getlist('author')
-        publication_date = request.GET.get('publication_date', None)
+        selected_categories = request.GET.getlist('choiceCategories')
 
-        news = find_matching_articles(selected_sections, selected_authors, publication_date)
+        news = find_matching_articles(selected_categories)
 
         context = {
-        'brands': selected_sections,
-        'styles': selected_authors,
-        'colors': publication_date,
+        'categories': selected_categories,
         'models': news
         }
 
-        return render(request, "newspaper/find_articles.html", context)
+        return render(request, "newspaper/find.html", context)

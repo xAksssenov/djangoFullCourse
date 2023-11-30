@@ -3,21 +3,21 @@
 {% block title %}Подобрать статьи{% endblock %}
 
 {% block content %}
-<div class="wrapper">
-    <form action="{% url 'newspaper:find' %}" method="post">
-        {% csrf_token %}
-        <fieldset>
-            <legend>
-                <h3>Выберите раздел</h3>
-            </legend>
-            {% for category in categories %}
-            <label>
-                {{category.name}}
-                <input type="checkbox" name="choiceCategories" value="{{category.name}}">
-            </label>
-            {% endfor %}
-        </fieldset>
-        <input type="submit" value="Подобрать">
-    </form>
-</div>
+    <div class="wrapper">
+        <form action="{% url 'newspaper:find' %}" method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend>
+                    <h3>Выберите раздел</h3>
+                </legend>
+                {% for category in categories %}
+                    <label>
+                        {{category.name}}
+                        <input type="checkbox" name="choiceCategories" value="{{category.name}}">
+                    </label>
+                {% endfor %}
+            </fieldset>
+            <input class="input" type="submit" value="Подобрать">
+        </form>
+    </div>
 {% endblock %}
