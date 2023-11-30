@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404
 from .models import Article, Comment, Category
 from .utils import find_matching_articles
 
@@ -27,14 +26,13 @@ def polls(request):
     return render(request, "newspaper/polls.html", context)
 
 def find(request):
+
+    selected_categories = request.GET.getlist('choiceCategories')
+    matching_articles = find_matching_articles(selected_categories)
     
-        selected_categories = request.GET.getlist('choiceCategories')
-
-        news = find_matching_articles(selected_categories)
-
-        context = {
-        'categories': selected_categories,
-        'models': news
-        }
-
-        return render(request, "newspaper/find.html", context)
+    context = {
+        'selected_categories': selected_categories,
+        'articles': matching_articles  
+    }
+    
+    return render(request, "newspaper/find.html", context)

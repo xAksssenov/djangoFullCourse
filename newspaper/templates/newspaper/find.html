@@ -6,8 +6,8 @@
 <div class="wrapper">
     <ul class="finded">
         Все выбранные разделы:
-        {% for category in categories %}
-        <li>{{ category.name }}</li>
+        {% for category in selected_categories %}
+        <li>{{ category }}</li>
         {% endfor %}
     </ul>
     <ul class="finded">

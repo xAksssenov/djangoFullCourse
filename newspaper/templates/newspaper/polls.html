@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="wrapper">
-        <form action="{% url 'newspaper:find' %}" method="post">
+        <form action="{% url 'newspaper:find' %}" method="get">
             {% csrf_token %}
             <fieldset>
                 <legend>
