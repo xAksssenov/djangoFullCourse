@@ -8,4 +8,5 @@ urlpatterns = [
     path('article/<int:article_id>/', views.detail, name='detail'),
     path('polls', views.polls, name='polls'),
     path('find', views.find, name='find'),
+    path('article/<int:pk>/edit/', views.article_edit, name='article_edit'),
 ]

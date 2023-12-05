@@ -23,9 +23,10 @@
     <div>
         <ul class="ul_advertisers">
             {% for advertiser in article.advertiser_set.all %}
-            <li>{{ advertiser.name }}</li>
+            <li style="color: black; font-size: 2rem;">{{ advertiser.name }}</li>
             {% endfor %}
         </ul>
     </div>
+    <a class="a_polls" href="{% url 'newspaper:article_edit' pk=article.pk %}">Редактировать</a>
 </div>
 {% endblock %}

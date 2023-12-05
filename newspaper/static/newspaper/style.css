@@ -18,6 +18,10 @@ main {
     flex: 1 0 auto;
 }
 
+.edit_form {
+    margin: 30px;
+}
+
 a {
     color: rgb(0, 0, 0);
     text-decoration: none;
@@ -40,11 +44,16 @@ a:hover,
     right: 10vw;
 }
 
+.adv {
+    color: black; 
+    font-size: 2rem;
+}
+
 .input {
     border: 1px solid rgb(56, 54, 54);
     border-radius: 20px;
     padding: 10px;
-    margin: 15px;
+    margin: 30px;
     cursor: pointer;
     transition: color 0.3s ease, transform 0.3s ease;
     background-color: white;
@@ -98,6 +107,31 @@ p {
     margin: 0 auto;
 }
 
+.post-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #000;
+}
+
+.post-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.post-form input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 5px; 
+    border: 1px solid #000; 
+}
+
+.content {
+    margin-left: 20px;
+}
+
 ul {
     font-size: 4rem;
     color: #fff;
@@ -112,9 +146,11 @@ fieldset {
 label {
     font-size: 2rem;
 }
+
 input{
     font-size: 2rem;
 }
+
 h3{
     font-size: 4rem;
     line-height: 0;
