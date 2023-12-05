@@ -7,10 +7,10 @@ class CommentInline(admin.StackedInline):
     extra = 1
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ["title", "section", "author", "publication_date"]
+    list_display = ["title", "section", "author","short_content", "publication_date"]
     list_filter = ["section"]
     date_hierarchy = "publication_date"
-    list_display_links = ["title"]
+    list_display_links = ["title", "section", "author"]
     search_fields = ["title"]
     
     @admin.display(description='Short Content')
