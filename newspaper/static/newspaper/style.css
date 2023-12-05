@@ -55,7 +55,8 @@ a:hover,
     color: #2c2c2c;
 }
 
-.ul_comment {
+.ul_comment,
+.ul_advertisers {
     color: #2c2c2c;
     font-size: 2rem;
 }

@@ -7,15 +7,23 @@
 <div class="wrapper">
     <h1>Название: {{ article.title }}</h1>
     <p> <b>Раздел:</b> {{ article.section }}</p>
-    <p> <b>Автор:</b>  {{ article.author.name }}</p>
+    <p> <b>Автор:</b> {{ article.author.name }}</p>
     <img src="{% static 'newspaper/images/' %}{{ article.id }}.jpg" width="400" alt="{{ article.title }}">
-    <p> <b>Содержание:</b>  {{ article.content }}</p>
-    <p> <b>Дата публикации:</b>  {{ article.publication_date }}</p>
+    <p> <b>Содержание:</b> {{ article.content }}</p>
+    <p> <b>Дата публикации:</b> {{ article.publication_date }}</p>
     <p> <b>Комментарии:</b> </p>
     <div>
         <ul class="ul_comment">
             {% for comment in comments %}
             <li>{{ comment.text }} - {{ comment.reader.name }} ({{ comment.timestamp }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <p> <b>Рекламодатели:</b> </p>
+    <div>
+        <ul class="ul_advertisers">
+            {% for advertiser in article.advertiser_set.all %}
+            <li>{{ advertiser.name }}</li>
             {% endfor %}
         </ul>
     </div>
