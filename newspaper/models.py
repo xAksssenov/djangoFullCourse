@@ -1,7 +1,9 @@
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -26,6 +28,8 @@ class Article(models.Model):
     content = models.TextField()
     publication_date = models.DateField(auto_now_add=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.title

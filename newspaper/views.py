@@ -5,6 +5,11 @@ from .utils import find_matching_articles
 from .forms import ArticleForm
 from django.shortcuts import redirect
 
+from rest_framework.viewsets import ModelViewSet
+from .models import Category, Author, Article
+from .serializers import CategorySerializer, AuthorSerializer, ArticleSerializer
+from .pagination import ArticlePagination
+
 def list(request):
 
     articles = Article.objects.all()
@@ -66,3 +71,16 @@ def article_edit(request, pk):
     else:
         form = ArticleForm(instance=article)
     return render(request, 'newspaper/article_edit.html', {'form': form})
+
+class CategoryViewSet(ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
+class AuthorViewSet(ModelViewSet):
+    serializer_class = AuthorSerializer
+    queryset = Author.objects.all()
+
+class ArticleViewSet(ModelViewSet):
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
+    pagination_class = ArticlePagination
