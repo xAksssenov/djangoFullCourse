@@ -1,0 +1,30 @@
+{% extends 'articles/base.html' %}
+
+{% block title %}{{article.article_title}}{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+
+    <h1>Редактирование комментария к статье {{article.article_title}}</h1>
+    <p>Комментарий:</p>
+    <p style="font-size: 32px ;"> Автор: {{comment.author_name}} </p>
+    <p> Текст: {{comment.comment_text}} </p>
+    {% if comment.image %}
+    <img src="{{ comment.image.url }}" alt="Картинка комментария" width="300">
+    {% endif %}
+    <form action="{% url 'articles:edit_comment' article.id comment.id%}" method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+        <input type="file" name="image" accept="image/*">
+
+        <textarea name="comment" cols="30" rows="10" required placeholder="Ваш комментарий">
+
+         </textarea>
+        <button type="submit">Изменить комментарий</button>
+
+
+    </form>
+</div>
+
+
+{% endblock %}

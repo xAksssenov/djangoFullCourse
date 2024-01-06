@@ -1,0 +1,49 @@
+{% extends 'articles/base.html' %}
+
+{% block title %}{{article.article_title}}{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+
+    <h1>{{article.article_title}}</h1>
+
+    <p>{{article.article_text}}</p>
+
+    <p>{{article.pub_date}}</p>
+
+
+    {% if latest_comments_list %}
+    <h2> Комментарии </h2>
+    <ul>
+        {% for comment in latest_comments_list %}
+        <li>
+            <strong> {{comment.author_name}} </strong>
+            <p> {{comment.comment_text}} </p>
+            {% if comment.image %}
+            <img src="{{ comment.image.url }}" alt="Картинка комментария" width="300">
+            {% endif %}
+            <a href="{% url 'articles:detail_comment' article.id comment.id%}">Редактировать</a>
+            <a href="{% url 'articles:delete_comment' article.id comment.id%}">Удалить</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>
+        Комментарии не найдены
+    </p>
+    {% endif %}
+
+    <form action="{% url 'articles:leave_comment' article.id%}" method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <input type="text" required placeholder="Ваше имя" name="username">
+        <textarea name="comment" cols="30" rows="10" required placeholder="Ваш комментарий"></textarea>
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">Оставить комментарий</button>
+
+    </form>
+</div>
+
+
+{% endblock %}

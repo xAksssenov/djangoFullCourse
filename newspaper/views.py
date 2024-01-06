@@ -1,9 +1,13 @@
+import datetime
+
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from .models import Article, Author, Comment, Category
 from .utils import find_matching_articles
 from .forms import ArticleForm
 from django.shortcuts import redirect
+from rest_framework.permissions import IsAuthenticated
 
 from rest_framework.viewsets import ModelViewSet
 from .models import Category, Author, Article
@@ -72,15 +76,18 @@ def article_edit(request, pk):
         form = ArticleForm(instance=article)
     return render(request, 'newspaper/article_edit.html', {'form': form})
 
-class CategoryViewSet(ModelViewSet):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()
-
-class AuthorViewSet(ModelViewSet):
-    serializer_class = AuthorSerializer
-    queryset = Author.objects.all()
-
 class ArticleViewSet(ModelViewSet):
     serializer_class = ArticleSerializer
-    queryset = Article.objects.all()
     pagination_class = ArticlePagination
+    queryset = Article.objects.all()
+    
+class CurrentUserArticlesViewSet(ModelViewSet):
+    serializer_class = ArticleSerializer
+    pagination_class = ArticlePagination
+    permission_classes = [IsAuthenticated]
+    queryset = Article.objects.all()
+
+    def get_queryset(self):
+        user = self.request.user
+        return Article.objects.filter(Q(author=user) | (Q(author__username='specific_author') & Q(
+            pub_date__gte=timezone.now() - datetime.timedelta(days=7))))

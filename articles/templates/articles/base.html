@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Мой сайт{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'articles/style.css' %}" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="header__wrapper">
+            <a href="{% url 'articles:index' %}">
+                <img src="{% static 'articles/images/mospolytech_logo_white.png' %}" alt="our logotype"
+                    class="header__logo" />
+            </a>
+            <a href="{% url 'shoefinder:index' %}"> К поиску!</a>
+        </div>
+    </header>
+<main>{% block content %}{% endblock %}</main>
+<footer class="footer">
+    <div class="footer__wrapper">
+        <p>Выполнил: Данцаранов Владислав</p>
+    </div>
+</footer>
+
+</body>
+
+</html>

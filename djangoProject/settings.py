@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'newspaper',
+    'articles',
     'debug_toolbar',
     'rest_framework',
     'simple_history',
     'rest_framework_simplejwt',
+    'import_export',
 ]
 
 MIDDLEWARE = [

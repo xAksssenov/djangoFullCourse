@@ -1,0 +1,21 @@
+{% extends 'articles/base.html' %}
+
+{% block title %}Новые статьи{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% if latest_articles_list %}
+    <p>Список статей</p>
+    <ul>
+        {% for a in latest_articles_list %}
+        <li>
+            <a href="{% url 'articles:detail' a.id %}">{{a.article_title}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% else %}
+    <p> Статьи не найдены =/</p>
+    {% endif %}
+</div>
+{% endblock %}
