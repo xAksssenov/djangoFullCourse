@@ -1,17 +1,38 @@
+from .models import Category, Article, PurchaseLinks, Author, Tag
 from rest_framework import serializers
-from .models import Category, Author, Article
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['name']
+        fields = '__all__'
+
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ['name', 'email']
+        fields = '__all__'
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
+
 
 class ArticleSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+    author = AuthorSerializer(many=True)
+    tag = TagSerializer(many=True)
+
     class Meta:
         model = Article
-        fields = ['title', 'section', 'content', 'publication_date', 'author']
+        fields = ('id', 'name', 'category', 'author', 'tag')
+
+
+class PurchaseLinksSerializer(serializers.ModelSerializer):
+    article = ArticleSerializer()
+
+    class Meta:
+        model = PurchaseLinks
+        fields = '__all__'

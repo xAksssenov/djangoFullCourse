@@ -1,10 +1,19 @@
+from django.urls import path
 from rest_framework.routers import DefaultRouter
-from . import views
+
+from .views import (
+    CategoryViewSet,
+    ArticleViewSet,
+    PurchaseLinksViewSet,
+    FindArticlesViewSet
+)
 
 app_name = 'newspaper'
 
 router = DefaultRouter()
-router.register("articles", views.ArticleViewSet)
-router.register("my-articles", views.CurrentUserArticlesViewSet)
+router.register("categories", CategoryViewSet)
+router.register("articles", ArticleViewSet)
+router.register("links", PurchaseLinksViewSet)
+router.register('find-articles', FindArticlesViewSet, basename='find-articles')
 
 urlpatterns = [] + router.urls

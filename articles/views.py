@@ -104,7 +104,7 @@ class CurrentUserArticlesViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Article.objects.filter(Q(author=user) | (Q(author__username='specific_author') & Q(
+        return Article.objects.filter(Q(author=user) | (Q(author__username='moderator') & Q(
             pub_date__gte=timezone.now() - datetime.timedelta(days=7))))
 
 

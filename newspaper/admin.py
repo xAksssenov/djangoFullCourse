@@ -1,54 +1,71 @@
 from django.contrib import admin
 
-from .models import Category, Article, Author, Advertiser, Reader, Comment
+from .models import Category, Article, PurchaseLinks, Author, Tag, ArticleAuthor, ArticleTag
 
-class CommentInline(admin.StackedInline):
-    model = Comment
+
+class ArticleAuthorInline(admin.StackedInline):
+    model = ArticleAuthor
     extra = 1
 
+
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ["title", "section", "author","short_content", "publication_date"]
-    list_filter = ["section"]
-    date_hierarchy = "publication_date"
-    list_display_links = ["title", "section", "author"]
-    search_fields = ["title"]
-    
-    @admin.display(description='Short Content')
-    def short_content(self, obj):
-        return f"{obj.content[:50]}..." if len(obj.content) > 50 else obj.content
+    list_display = ["name", "category", "get_authors", "get_tags"]
+    filter_horizontal = ["author", "tag"]
+    inlines = [ArticleAuthorInline]
 
-    inlines = [CommentInline]
-    raw_id_fields = ["author"]
+    def get_authors(self, obj):
+        return ", ".join([author.name for author in obj.author.all()])
 
+    def get_tags(self, obj):
+        return ", ".join([tag.name for tag in obj.tag.all()])
+
+    get_authors.short_description = "Авторы"
+    get_tags.short_description = "Теги"
+
+
+class PurchaseLinksAdmin(admin.ModelAdmin):
+    list_display = ["website_name", "url", "display_article_name", "readers_count", "popular"]
+    list_display_links = ["website_name", "url"]
+    list_filter = ["article"]
+    search_fields = ["website_name"]
     fieldsets = [
-        (None, {"fields": ["title", "section", "content", "author"]}),
+        ("Название сайта", {"fields": ["website_name"]}),
+        ("Остальная информация", {"fields": ["url", "article", "readers_count"]}),
     ]
 
-class AdvertiserAdmin(admin.ModelAdmin):
-    list_display = ["name"]
-    filter_horizontal = ['ads_published']
+    def display_article_name(self, obj):
+        return obj.article.name
 
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ['article', 'reader', 'text', 'timestamp']
-    list_filter = ['article', 'reader']
+    display_article_name.short_description = "Статья"
 
-class AuthorAdmin(admin.ModelAdmin):
-    list_display = ["name", "email"]
-    search_fields = ["name", "email"]
-    list_filter = ["name"]
 
-class ReaderAdmin(admin.ModelAdmin):
-    list_display = ["name", "email"]
-    search_fields = ["name", "email"]
+class ArticleTagAdmin(admin.ModelAdmin):
+    list_display = ['display_tag', 'display_article']
+    list_display_links = ['display_tag', 'display_article']
+    filter_horizontal = ['article', 'tag']
+    list_filter = ['article', 'tag']
 
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["name"]
-    search_fields = ["name"]
-    list_filter = ["name"]
+    def display_tag(self, obj):
+        return ", ".join([tag.name for tag in obj.tag.all()])
+
+    def display_article(self, obj):
+        return ", ".join([article.name for article in obj.article.all()])
+
+    display_tag.short_description = "Теги"
+    display_article.short_description = "Статьи"
+
+    
+class ArticleAuthorAdmin(admin.ModelAdmin):
+    list_display = ['author', 'article']
+    list_filter = ['author']
+    search_fields = ["article"]
+    raw_id_fields = ['article']
+
 
 admin.site.register(Category)
 admin.site.register(Article, ArticleAdmin)
+admin.site.register(PurchaseLinks, PurchaseLinksAdmin)
 admin.site.register(Author)
-admin.site.register(Advertiser, AdvertiserAdmin)
-admin.site.register(Reader)
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(Tag)
+admin.site.register(ArticleTag, ArticleTagAdmin)
+admin.site.register(ArticleAuthor, ArticleAuthorAdmin)
