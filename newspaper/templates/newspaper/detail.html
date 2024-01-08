@@ -1,32 +1,25 @@
-{% extends 'newspaper/index.html' %}
+{% extends 'shoefinder/index.html' %}
 {% load static %}
 
-{% block title %}{{ article.title }}{% endblock %}
+{% block title %}{{article_name}}{% endblock %}
 
 {% block content %}
 <div class="wrapper">
-    <h1>Название: {{ article.title }}</h1>
-    <p> <b>Раздел:</b> {{ article.section }}</p>
-    <p> <b>Автор:</b> {{ article.author.name }}</p>
-    <img src="{% static 'newspaper/images/' %}{{ article.id }}.jpg" width="400" alt="{{ article.title }}">
-    <p> <b>Содержание:</b> {{ article.content }}</p>
-    <p> <b>Дата публикации:</b> {{ article.publication_date }}</p>
-    <p> <b>Комментарии:</b> </p>
-    <div>
-        <ul class="ul_comment">
-            {% for comment in comments %}
-            <li>{{ comment.text }} - {{ comment.reader.name }} ({{ comment.timestamp }})</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <p> <b>Рекламодатели:</b> </p>
-    <div>
-        <ul class="ul_advertisers">
-            {% for advertiser in article.advertiser_set.all %}
-            <li style="color: black; font-size: 2rem;">{{ advertiser.name }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <a class="a_polls" href="{% url 'newspaper:article_edit' pk=article.pk %}">Редактировать</a>
+    <h1>Название: {{article_name}}</h1>
+    <p>Категория: {{article_name.category}}</p>
+    <p>Заголовок статьи: {{article_name.name}}</p>
+    <p>Автор(ы): {% for author in article_name.author.all %}{{ author.name }}{% if not forloop.last %}, {% endif %}{%
+        endfor %}</p>
+    <p>Теги: {% for tag in article_name.tag.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+    <img src="{% static 'newspaper/images/' %}{{ article_name.id }}.jpg" width="300">
+    <p>Где читать:</p>
+    <ul>
+        {% for article_link in links %}
+        <li><a href="{{ article_link.url }}" target="_blank">{{ article_link.website_name }}</a>
+            <p>Читателей: {{ article_link.readers_count }}</p>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
+
 {% endblock %}

@@ -16,7 +16,7 @@ from .utils import filter_articles
 def index(request):
     articles = Article.objects.all()
     context = {"articles": articles}
-    return render(request, "your_app_name/list.html", context)
+    return render(request, "newspaper/list.html", context)
 
 
 def detail(request, article_id):
@@ -25,7 +25,7 @@ def detail(request, article_id):
         links = PurchaseLinks.objects.filter(article=article)
     except Article.DoesNotExist:
         raise Http404("Article does not exist")
-    return render(request, "your_app_name/detail.html", {"article": article, 'links': links})
+    return render(request, "newspaper/detail.html", {"article": article, 'links': links})
 
 
 def polls(request):
@@ -36,7 +36,7 @@ def polls(request):
         context = {'categories': categories, 'tags': tags, 'authors': authors}
     except:
         raise Http404("Error")
-    return render(request, "your_app_name/polls.html", context)
+    return render(request, "newspaper/polls.html", context)
 
 
 def find(request):
@@ -53,7 +53,7 @@ def find(request):
         'articles': articles
     }
 
-    return render(request, "your_app_name/findedArticles.html", context)
+    return render(request, "newspaper/findedArticles.html", context)
 
 
 class CategoryViewSet(ModelViewSet):

@@ -1,18 +1,19 @@
 {% extends 'newspaper/index.html' %}
 
-{% block title %}Статьи{% endblock %}
+{% block title %}Найденные статьи{% endblock %}
 
 {% block content %}
 <div class="wrapper">
+    <a href="{% url 'newspaper:polls' %}">Подобрать статьи</a>
     {% if articles %}
-    <ul class="ul_teg">Все статьи:
+    <ul>Все найденные статьи:
         {% for article in articles %}
-        <li><a href="{% url 'newspaper:detail' article.id %}">{{ article.title }}</a></li>
+        <li><a href="{% url 'newspaper:detail' article.id %}">{{ article.name }}</a></li>
         {% endfor %}
     </ul>
     {% else %}
     <p>Статьи не найдены =/</p>
     {% endif %}
-    <a class="a_polls" href="{% url 'newspaper:polls' %}">Перейти к выбору категорий</a>
 </div>
+
 {% endblock %}
