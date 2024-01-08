@@ -32,7 +32,7 @@ class Comment(models.Model):
     history = HistoricalRecords()
 
     def __str__(self):
-        return self.author
+        return f"{self.author_name}: {self.comment_text}"
 
     class Meta:
         verbose_name = 'Комментарий'

@@ -17,10 +17,7 @@ class ArticleResource(resources.ModelResource):
 
     def dehydrate_pub_date(self, article):
         return article.pub_date.strftime("%Y-%m-%d %H:%M")
-
-    def get_custom_data(self, article):
-        return f"{article.author.first_name}"
-
+    
 class CommentResource(resources.ModelResource):
     class Meta:
         model = Comment

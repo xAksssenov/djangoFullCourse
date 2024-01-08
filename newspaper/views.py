@@ -11,6 +11,8 @@ from .models import Category, Article, PurchaseLinks, Author, Tag
 from .pagination import ArticlePagination, PurchaseLinksPagination
 from .serializers import CategorySerializer, ArticleSerializer, PurchaseLinksSerializer
 from .utils import filter_articles
+from django.db.models import Sum
+from django.db.models import Avg
 
 
 def index(request):
@@ -94,17 +96,20 @@ class PurchaseLinksViewSet(ModelViewSet):
     queryset = PurchaseLinks.objects.all()
     pagination_class = PurchaseLinksPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['store_name']
+    filterset_fields = ['website_name']
+
 
     @action(detail=False, methods=['GET'])
-    def average_price_by_category(self, request):
+    def average_views_by_category(self, request):
         category_name = request.query_params.get('category', None)
 
         if category_name:
             articles = Article.objects.filter(category__name=category_name)
-            total_price = sum(link.price for link in PurchaseLinks.objects.filter(article__in=articles))
-            average_price = total_price / len(articles) if len(articles) > 0 else 0
-            return Response({'average_price': average_price})
+            views_by_article = PurchaseLinks.objects.filter(article__in=articles).values('article').annotate(average_views=Avg('readers_count'))
+
+            result = [{'article': entry['article'], 'average_views': entry['average_views']} for entry in views_by_article]
+            
+            return Response(result)
         else:
             return Response({'error': 'Provide a category parameter'})
 
@@ -115,10 +120,21 @@ class PurchaseLinksViewSet(ModelViewSet):
 
         if tag_name and author_name:
             articles = Article.objects.filter(tag__name=tag_name, author__name=author_name)
-            serializer = ArticleSerializer(articles, many=True)
-            return Response(serializer.data)
+        elif tag_name:
+            articles = Article.objects.filter(tag__name=tag_name)
+        elif author_name:
+            articles = Article.objects.filter(author__name=author_name)
         else:
-            return Response({'error': 'Provide both tag and author parameters'})
+            return Response({'error': 'Provide at least one of tag or author parameters'})
+
+        serializer = ArticleSerializer(articles, many=True)
+        return Response(serializer.data)
+        
+    @action(methods=['POST'], detail=True)
+    def total_views(self, request, pk=None):
+        articles = Article.objects.all()
+        total_views = PurchaseLinks.objects.filter(article__in=articles).aggregate(Sum('readers_count'))['readers_count__sum']
+        return Response({'total_views': total_views})
 
 
 class FindArticlesViewSet(viewsets.ViewSet):

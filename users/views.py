@@ -13,6 +13,7 @@ User = get_user_model()
 
 class RegistrationView(ListCreateAPIView):
     serializer_class = UserSerializer
+    queryset = User.objects.none()
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
