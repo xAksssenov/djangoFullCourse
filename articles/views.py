@@ -1,6 +1,5 @@
 import datetime
 
-from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
@@ -8,11 +7,10 @@ from django.urls import reverse
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework import permissions
 
 from .models import Article, Comment
 from .pagination import CommentsPagination, ArticlesPagination
@@ -96,16 +94,22 @@ class ArticlesViewSet(ModelViewSet):
     queryset = Article.objects.all()
 
 
+class IsOwnerOrModerator(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.author == request.user or request.user.username == 'moderator'
+    
+
 class CurrentUserArticlesViewSet(ModelViewSet):
     serializer_class = ArticlesSerializer
     pagination_class = ArticlesPagination
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrModerator]
     queryset = Article.objects.all()
 
     def get_queryset(self):
         user = self.request.user
-        return Article.objects.filter(Q(author=user) | (Q(author__username='moderator') & Q(
-            pub_date__gte=timezone.now() - datetime.timedelta(days=7))))
+        return Article.objects.filter(
+            Q(author__username=user.username) | (Q(author__username='moderator') & Q(
+                pub_date__gte=timezone.now() - datetime.timedelta(days=7))))
 
 
 class CommentsViewSet(ModelViewSet):
