@@ -1,27 +1,38 @@
-from django.contrib.auth import get_user_model
-from rest_framework import status
-from rest_framework.generics import (
-    ListCreateAPIView,
-)
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.views import LoginView
+from django.contrib.messages.views import SuccessMessageMixin
 
-from users.serializers import UserSerializer
-
-User = get_user_model()
+from users.models import User
+from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+from products.models import Basket
+from common.views import TitleMixin
 
 
-class RegistrationView(ListCreateAPIView):
-    serializer_class = UserSerializer
-    queryset = User.objects.none()
+class UserLoginView(TitleMixin, LoginView):
+    template_name = 'users/login.html'
+    form_class = UserLoginForm
+    title = 'Store - Авторизация'
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
 
-        refresh = RefreshToken.for_user(user)
-        access_token = str(refresh.access_token)
+class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
+    model = User
+    form_class = UserRegistrationForm
+    template_name = 'users/registration.html'
+    success_url = reverse_lazy('users:login')
+    success_message = 'Вы успешно зарегестрированы!'
+    title = 'Store - Регистрация'
 
-        return Response({'access_token': access_token}, status=status.HTTP_201_CREATED)
-    
+class UserProfileView(TitleMixin, UpdateView):
+    model = User
+    form_class = UserProfileForm
+    template_name = 'users/profile.html'
+    title = 'Store - Личный кабинет'
+
+    def get_success_url(self):
+        return reverse_lazy('users:profile', args=(self.object.id,))
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileView, self).get_context_data()
+        context['baskets'] = Basket.objects.filter(user=self.object)
+        return context

@@ -1,29 +1,19 @@
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
-
-User = get_user_model()
-
+from django.contrib.auth.models import AbstractUser
+from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
-    def create(self, validated_data):
-        user = User(**validated_data)
+  class Meta:
+    model = User
+    fields = ('id', 'username', 'email', 'is_staff', 'password')
+    extra_kwargs = {'password': {'write_only': True}}
+  
+    def validate_email(self, value):
+      if User.objects.filter(email=value).exists():
+        raise serializers.ValidationError('Пользователь с таким email уже существует.')
+      return value
 
-        user.set_password(validated_data["password"])
-        user.save()
-
-        return user
-
-    class Meta:
-        model = User
-        fields = [
-            "id",
-            "username",
-            "email",
-            "first_name",
-            "last_name",
-            "password",
-        ]
-        extra_kwargs = {
-            "password": {"write_only": True},
-        }
-        
+    def validate_password(self, value):
+      if len(value) < 8:
+          raise serializers.ValidationError('Пароль должен состоять не менее, чем из 8 символов')
+      return value
