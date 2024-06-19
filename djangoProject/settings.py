@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os.path
-from datetime import timedelta
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,29 +32,36 @@ ALLOWED_HOSTS = []
 
 # Application definition
 CORS_ORIGIN_ALLOW_ALL = True
+
 INSTALLED_APPS = [
-    'corsheaders',
-    'users.apps.UsersConfig',
-    'articles.apps.ArticlesConfig',
-    'newspaper.apps.NewspaperConfig',
     'django.contrib.admin',
-    'django_filters',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
     'rest_framework',
     'simple_history',
-    'rest_framework.authtoken',
-    'djoser',
+    'import_export',
+    'drf_yasg',
+    'crispy_forms',
+    'django_filters',
+    'django_celery_beat',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.vk',
+    'social_django',
+
+    'products',
+    'users',
+    'api',
+    'cache_log'
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,14 +69,20 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
+    'cache_log.middleware.LoggingMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
+
 CORS_ALLOW_HEADERS = ('content-disposition', 'accept-encoding',
                       'content-type', 'accept', 'origin', 'Authorization',
                       'access-control-allow-methods', 'bearer')
+
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
+
 ROOT_URLCONF = 'djangoProject.urls'
 
 TEMPLATES = [
@@ -143,6 +156,11 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = '/users/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -160,3 +178,55 @@ REST_FRAMEWORK = {
     ]
 }
 
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+CELERY_BEAT_SCHEDULE = {
+    'send-weekly-best-products-email': {
+        'task': 'products.tasks.weekly_best_products_email_task',
+        'schedule': crontab(hour=7, minute=0, day_of_week='mon'),  # Every Mon at 7 am
+        # 'schedule': crontab(minute='*/5'),  # Every 5 min
+    },
+
+    'log': {
+        'task': 'cache_log.tasks.save_cache_log_task',
+        'schedule': crontab(minute='*/1'),
+    }
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mailhog'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = 'store@gmail.com'
+EMAIL_HOST_PASSWORD = ''
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/0',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    },
+
+}
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': [
+            'user',
+        ],
+    }
+}
