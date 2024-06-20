@@ -5,15 +5,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from users.models import User
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
-from products.models import Basket
 from common.views import TitleMixin
-
 
 class UserLoginView(TitleMixin, LoginView):
     template_name = 'users/login.html'
     form_class = UserLoginForm
     title = 'Store - Авторизация'
-
 
 class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
     model = User
@@ -31,8 +28,3 @@ class UserProfileView(TitleMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('users:profile', args=(self.object.id,))
-
-    def get_context_data(self, **kwargs):
-        context = super(UserProfileView, self).get_context_data()
-        context['baskets'] = Basket.objects.filter(user=self.object)
-        return context

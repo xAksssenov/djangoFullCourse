@@ -1,11 +1,11 @@
 version: "3.7"
 
 services:
-  store:
+  newspaper:
     build:
       context: .
       dockerfile: Dockerfile
-    hostname: store
+    hostname: newspaper
     stdin_open: true
     ports:
       - "8000:8000"
@@ -15,39 +15,39 @@ services:
     depends_on:
       - redis
     networks:
-      - store-net
+      - newspaper-net
   redis:
     image: redis:alpine
     hostname: redis
     networks:
-      - store-net
+      - newspaper-net
     ports:
       - "6379:6379"
   celery-worker:
     build:
       context: .
       dockerfile: Dockerfile
-    command: "celery -A store worker -l info"
+    command: "celery -A newspaper worker -l info"
     volumes:
       - ./:/usr/src/app/
     depends_on:
       - redis
-      - store
+      - newspaper
     restart: on-failure
     networks:
-      - store-net
+      - newspaper-net
   celery-beat:
     build:
       context: .
       dockerfile: Dockerfile
-    command: "celery -A store beat -l info"
+    command: "celery -A newspaper beat -l info"
     volumes:
       - ./:/usr/src/app/
     depends_on:
       - celery-worker
     restart: on-failure
     networks:
-      - store-net
+      - newspaper-net
   mailhog:
     image: mailhog/mailhog
     logging:
@@ -56,6 +56,6 @@ services:
       - "1025:1025"
       - "8025:8025"
     networks:
-      - store-net
+      - newspaper-net
 networks:
-  store-net:
+  newspaper-net:

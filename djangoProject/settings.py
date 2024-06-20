@@ -55,9 +55,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.vk',
     'social_django',
 
-    'products',
+    'newspaper',
     'users',
-    'api',
+    'articles',
     'cache_log'
 ]
 
@@ -189,8 +189,8 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
 CELERY_BEAT_SCHEDULE = {
-    'send-weekly-best-products-email': {
-        'task': 'products.tasks.weekly_best_products_email_task',
+    'send-weekly-best-newspaper-email': {
+        'task': 'newspaper.tasks.weekly_best_newspaper_email_task',
         'schedule': crontab(hour=7, minute=0, day_of_week='mon'),  # Every Mon at 7 am
         # 'schedule': crontab(minute='*/5'),  # Every 5 min
     },
