@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Лучшие товары недели</title>
+    <title>Лучшие записи недели</title>
   </head>
   <body>
     <h1>Здравствуйте, {{ user.username }}!</h1>
     <p>Вот лучшие записи этой недели:</p>
     <ul>
-      {% for product in products %}
+      {% for article in articles %}
       <li>{{ article.name }} - {{ article.category }}</li>
       {% endfor %}
     </ul>

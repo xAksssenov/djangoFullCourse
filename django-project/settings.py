@@ -196,7 +196,7 @@ CELERY_BEAT_SCHEDULE = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mailhog'
 EMAIL_PORT = 1025
-EMAIL_HOST_USER = 'store@gmail.com'
+EMAIL_HOST_USER = 'newspaper@gmail.com'
 EMAIL_HOST_PASSWORD = ''
 
 CACHES = {
@@ -217,8 +217,6 @@ AUTHENTICATION_BACKENDS = [
 
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
-        'SCOPE': [
-            'user',
-        ],
+        'SCOPE': ['user'],
     }
 }
