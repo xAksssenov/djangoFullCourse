@@ -23,7 +23,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index.as_view(), name='index'),
+    path('', index, name='index'),
     path('newspaper/', include('newspaper.urls', namespace='newspaper')),
     path('users/', include('users.urls', namespace='users')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),
