@@ -1,29 +1,29 @@
-{% extends 'shoefinder/index.html' %}
-
-{% block title %}Подходящие статьи{% endblock %}
-
+{% extends 'newspaper/index.html' %}
+{% block title %} Подходящие статьи {% endblock %}
 {% block content %}
 <div class="wrapper">
-    <ul>Все выбранные категории:
-        {% for category in categories %}
-        <li>{{ category }}</li>
-        {% endfor %}
-    </ul>
-    <ul>Все выбранные теги:
-        {% for tag in tags %}
-        <li>{{ tag }}</li>
-        {% endfor %}
-    </ul>
-    <ul>Все выбранные авторы:
-        {% for author in authors %}
-        <li>{{ author }}</li>
-        {% endfor %}
-    </ul>
-    <ul>Подходящие статьи:
-        {% for article in articles %}
-        <li><a href="{% url 'newspaper:detail' article.id %}">{{ article.name }}</a></li>
-        {% endfor %}
-    </ul>
+  <ul>
+    Все выбранные категории: {% for category in categories %}
+    <li>{{ category }}</li>
+    {% endfor %}
+  </ul>
+  <ul>
+    Все выбранные теги: {% for tag in tags %}
+    <li>{{ tag }}</li>
+    {% endfor %}
+  </ul>
+  <ul>
+    Все выбранные авторы: {% for author in authors %}
+    <li>{{ author }}</li>
+    {% endfor %}
+  </ul>
+  <ul>
+    Подходящие статьи: {% for article in articles %}
+    <li>
+      <a href="{% url 'newspaper:detail' article.id %}">{{ article.name }}</a>
+    </li>
+    {% endfor %}
+  </ul>
 </div>
 
 {% endblock %}

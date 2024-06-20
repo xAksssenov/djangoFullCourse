@@ -162,20 +162,12 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ],
-
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 3,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 
@@ -191,8 +183,8 @@ CELERY_TIMEZONE = 'UTC'
 CELERY_BEAT_SCHEDULE = {
     'send-weekly-best-newspaper-email': {
         'task': 'newspaper.tasks.weekly_best_newspaper_email_task',
-        'schedule': crontab(hour=7, minute=0, day_of_week='mon'),  # Every Mon at 7 am
-        # 'schedule': crontab(minute='*/5'),  # Every 5 min
+        # 'schedule': crontab(hour=7, minute=0, day_of_week='mon'),
+        'schedule': crontab(minute='*/1'),
     },
 
     'log': {

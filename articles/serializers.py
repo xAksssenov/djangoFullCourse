@@ -1,12 +1,6 @@
 from .models import Article, Comment
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from djoser.serializers import UserCreateSerializer as DjoserUserCreateSerializer
-
-class CustomUserCreateSerializer(DjoserUserCreateSerializer):
-    class Meta(DjoserUserCreateSerializer.Meta):
-        model = get_user_model()
-        fields = ('id', 'email', 'username', 'password', 'first_name', 'last_name')
 
 class CommentsSerializer(serializers.ModelSerializer):
     class Meta:

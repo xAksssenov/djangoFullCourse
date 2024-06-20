@@ -5,7 +5,11 @@ from .views import (
     CategoryViewSet,
     ArticleViewSet,
     PurchaseLinksViewSet,
-    FindArticlesViewSet
+    FindArticlesViewSet,
+    index,
+    detail,
+    polls,
+    find,
 )
 
 app_name = 'newspaper'
@@ -16,4 +20,9 @@ router.register("articles", ArticleViewSet)
 router.register("links", PurchaseLinksViewSet)
 router.register('find-articles', FindArticlesViewSet, basename='find-articles')
 
-urlpatterns = [] + router.urls
+urlpatterns = urlpatterns = [
+    path('', index, name='index'),
+    path('articles/<int:article_id>/', detail, name='detail'),
+    path('polls/', polls, name='polls'),
+    path('find/', find, name='find'),
+] + router.urls
