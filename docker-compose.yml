@@ -1,11 +1,11 @@
 version: "3.7"
 
 services:
-  newspaper:
+  django-project:
     build:
       context: .
       dockerfile: Dockerfile
-    hostname: newspaper
+    hostname: django-project
     stdin_open: true
     ports:
       - "8000:8000"
@@ -15,39 +15,39 @@ services:
     depends_on:
       - redis
     networks:
-      - newspaper-net
+      - django-project-net
   redis:
     image: redis:alpine
     hostname: redis
     networks:
-      - newspaper-net
+      - django-project-net
     ports:
       - "6379:6379"
   celery-worker:
     build:
       context: .
       dockerfile: Dockerfile
-    command: "celery -A newspaper worker -l info"
+    command: "celery -A django-project worker -l info"
     volumes:
       - ./:/usr/src/app/
     depends_on:
       - redis
-      - newspaper
+      - django-project
     restart: on-failure
     networks:
-      - newspaper-net
+      - django-project-net
   celery-beat:
     build:
       context: .
       dockerfile: Dockerfile
-    command: "celery -A newspaper beat -l info"
+    command: "celery -A django-project beat -l info"
     volumes:
       - ./:/usr/src/app/
     depends_on:
       - celery-worker
     restart: on-failure
     networks:
-      - newspaper-net
+      - django-project-net
   mailhog:
     image: mailhog/mailhog
     logging:
@@ -56,6 +56,6 @@ services:
       - "1025:1025"
       - "8025:8025"
     networks:
-      - newspaper-net
+      - django-project-net
 networks:
-  newspaper-net:
+  django-project-net:

@@ -1,16 +1,16 @@
 """
-WSGI config for djangoProject project.
+WSGI config for django-project project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/
+https://docs.django-project.com/en/4.2/howto/deployment/wsgi/
 """
 
 import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djangoProject.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django-project.settings')
 
 application = get_wsgi_application()

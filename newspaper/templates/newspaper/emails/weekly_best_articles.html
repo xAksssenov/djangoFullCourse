@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Лучшие товары недели</title>
+  </head>
+  <body>
+    <h1>Здравствуйте, {{ user.username }}!</h1>
+    <p>Вот лучшие записи этой недели:</p>
+    <ul>
+      {% for product in products %}
+      <li>{{ article.name }} - {{ article.category }}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
