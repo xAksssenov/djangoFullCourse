@@ -1,26 +1,24 @@
 {% extends 'newspaper/index.html' %}
 {% load static %}
 
-{% block title %}{{article_name}}{% endblock %}
+{% block title %}{{article.name}}{% endblock %}
 
 {% block content %}
 <div class="wrapper">
-    <h1>Название: {{article_name}}</h1>
-    <p>Категория: {{article_name.category}}</p>
-    <p>Заголовок статьи: {{article_name.name}}</p>
-    <p>Автор(ы): 
-        {% for author in article_name.author.all %}
+    <h1>Название: {{ article.name }}</h1>
+    <p>Категория: {{ article.category }}</p>
+    <p>Заголовок статьи: {{ article.name }}</p>
+    <p>Автор(ы):
+        {% for author in article.author.all %}
             {{ author.name }}{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </p>
-    <p>Теги: 
-        {% for tag in article_name.tag.all %}
-            {{ tag.name }}
-            {% if not forloop.last %}, 
-            {% endif %}
+    <p>Теги:
+        {% for tag in article.tag.all %}
+            {{ tag.name }}{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </p>
-    <img src="{% static 'newspaper/images/' %}{{ article_name.id }}.jpg" width="300">
+    <img src="{% static 'newspaper/images/' %}{{ article.id }}.jpg" width="300">
     <p>Где читать:</p>
     <ul>
         {% for article_link in links %}
