@@ -8,17 +8,12 @@ from newspaper.models import Article
 from users.models import User
 
 
-def get_weeks_best_article():
-    best_article = Article.objects.all()[:10]
-    return best_article
-
-
 def send_weekly_best_article_email():
     users = User.objects.all()
-    article = get_weeks_best_article()
+    articles = Article.objects.all()
     for user in users:
         subject = "Лучшие записи этой недели!"
-        html_message = render_to_string('emails/weekly_best_articles.html', {'article': article, 'user': user})
+        html_message = render_to_string('newspaper/emails/weekly_best_articles.html', {'articles': articles, 'user': user})
         plain_message = strip_tags(html_message)
         from_email = settings.EMAIL_HOST_USER
         to = user.email
@@ -27,5 +22,5 @@ def send_weekly_best_article_email():
 
 
 @shared_task
-def weekly_best_article_email_task():
+def weekly_best_newspaper_email_task():
     send_weekly_best_article_email()

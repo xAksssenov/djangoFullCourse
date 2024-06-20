@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -5,11 +6,15 @@
   </head>
   <body>
     <h1>Здравствуйте, {{ user.username }}!</h1>
-    <p>Вот лучшие записи этой недели:</p>
+    <p>Надеемся, у вас все хорошо. На этой неделе у нас есть несколько замечательных статей, которые мы хотели бы с вами поделиться:</p>
+
     <ul>
-      {% for article in articles %}
-      <li>{{ article.name }} - {{ article.category }}</li>
-      {% endfor %}
+        {% for article in articles %}
+        <li><a href="{% url 'newspaper:detail' article.id %}">{{ article.name }}</a></li>
+        {% endfor %}
     </ul>
+
+    <p>Спасибо, что вы с нами.</p>
+    <p>С уважением,<br>Команда Newspaper</p>
   </body>
 </html>
