@@ -1,82 +1,76 @@
-{% extends 'users/base.html' %}
+{% extends 'newspaper/index.html' %}
 
 {% block content %}
     <main>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-7">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <div>
+                <div>
                     {% if form.errors %}
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert"
-                             style="margin-top: 50px;">
+                        <div role="alert" style="margin-top: 50px;">
                             {{ form.errors }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <button type="button" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                     {% endif %}
-                    <div class="card shadow-lg border-0 rounded-lg mt-5">
-                        <div class="card-header"><h3 class="text-center font-weight-light my-4">Создать аккаунт</h3>
+                    <div>
+                        <div>
+                            <h3>Создать аккаунт</h3>
                         </div>
-                        <div class="card-body">
-                            <form action="{% url 'users:registration' %}" method="post">
+                        <div>
+                            <form action="{% url 'users:registration' %}" method="post" style="display: flex; flex-direction: column; gap: 15px;">
                                 {% csrf_token %}
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="small mb-1" for="{{ form.first_name.id_for_label }}">
-                                                Имя
-                                            </label>
-                                            {{ form.first_name }}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="small mb-1" for="{{ form.last_name.id_for_label }}">
-                                                Фамилия
-                                            </label>
-                                            {{ form.last_name }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <label class="small mb-1" for="{{ form.username.id_for_label }}">
-                                            Имя пользователя
+                                <div>
+                                    <div>
+                                        <label for="{{ form.first_name.id_for_label }}">
+                                            Имя
                                         </label>
-                                        {{ form.username }}
+                                        {{ form.first_name }}
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="small mb-1" for="{{ form.email.id_for_label }}">
-                                            Адрес электронной почты
+                                </div>
+                                <div>
+                                    <div>
+                                        <label for="{{ form.last_name.id_for_label }}">
+                                            Фамилия
                                         </label>
-                                        {{ form.email }}
+                                        {{ form.last_name }}
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="small mb-1" for="{{ form.password1.id_for_label }}">
-                                                Пароль
-                                            </label>
-                                            {{ form.password1 }}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="small mb-1" for="{{ form.password2.id_for_label }}">
-                                                Подтверждение пароля
-                                            </label>
-                                            {{ form.password2 }}
-                                        </div>
+                                <div>
+                                    <label for="{{ form.username.id_for_label }}">
+                                        Имя пользователя
+                                    </label>
+                                    {{ form.username }}
+                                </div>
+                                <div>
+                                    <label for="{{ form.email.id_for_label }}">
+                                        Адрес электронной почты
+                                    </label>
+                                    {{ form.email }}
+                                </div>
+                                <div>
+                                    <div>
+                                        <label for="{{ form.password1.id_for_label }}">
+                                            Пароль
+                                        </label>
+                                        {{ form.password1 }}
                                     </div>
                                 </div>
-                                <div class="form-group mt-4 mb-0">
-                                    <input class="btn btn-primary btn-block" type="submit" value="Создать аккаунт">
+                                <div>
+                                    <div>
+                                        <label for="{{ form.password2.id_for_label }}">
+                                            Подтверждение пароля
+                                        </label>
+                                        {{ form.password2 }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <input style="width: 100%;" type="submit" value="Создать аккаунт">
                                 </div>
                             </form>
                         </div>
-                        <div class="card-footer text-center">
-                            <div class="small">
+                        <div>
+                            <div>
                                 <a href="{% url 'users:login' %}">
                                     Уже есть аккаунт? Авторизоваться
                                 </a>
