@@ -44,13 +44,8 @@
                             <div>
                                 <input style="width: 100%;" type="submit" value="Авторизоваться">
                             </div>
-                            <div>
-                                <a href="#">
-                                    <i style="color: #4a658b;"></i>
-                                </a>
-                                <a href="#">
-                                    <i style="color: #303030;"></i>
-                                </a>
+                            <div style="margin-bottom: 15px;">
+                                <a href="{% provider_login_url 'github' %}">Войти через GitHub</a>
                             </div>
                         </form>
                     </div>

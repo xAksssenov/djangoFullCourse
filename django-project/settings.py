@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'simple_history',
     'import_export',
@@ -52,7 +53,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.vk',
     'social_django',
 
     'newspaper',
@@ -72,7 +72,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
     'cache_log.middleware.LoggingMiddleware',
-    "allauth.account.middleware.AccountMiddleware",
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 CORS_ALLOW_HEADERS = ('content-disposition', 'accept-encoding',
@@ -215,8 +215,12 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+SITE_ID = 1
+
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
         'SCOPE': ['user'],
+        'client_id': 'Ov23liCrSNH5DXwKnZ1I',
+        'secret': 'b5eb63a5fb3984b11d05d5ac374f62bbc4abd2a1',
     }
 }
